@@ -18,5 +18,6 @@
   "homepage": "https://github.com/junesummerblossom/portfolio-generator#readme",
   "dependencies": {
     "inquirer": "^12.4.2"
-  }
+  },
+  "type": "module"
 }
