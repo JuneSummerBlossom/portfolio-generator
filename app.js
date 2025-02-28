@@ -1,6 +1,8 @@
 import inquirer from 'inquirer';
-import fs from 'fs';
 import generatePage from './src/page-template.js';
+
+import writeFile from './utils/write-file.js';
+import copyFile from './utils/copy-file.js';
 
 const promptUser = () => {
   return inquirer.prompt([
@@ -129,21 +131,6 @@ Add a New Project
   });
 };
 
-/*
-promptUser()
-  .then(promptProject)
-  .then(portfolioData => {
-    const pageHTML = generatePage(portfolioData);
-
-    fs.writeFile('./index.html', pageHTML, err => {
-      if (err) throw new Error(err);
-
-      console.log('Portfolio complete! Check out index.html to see the output!');
-    });
-
-  });
-*/
-
 const mockData = {
   name: 'Lernantino',
   github: 'lernantino',
@@ -190,10 +177,24 @@ const mockData = {
   ]
 };
 
-const pageHTML = generatePage(mockData);
+//const pageHTML = generatePage(mockData);
 
-fs.writeFile('./index.html', pageHTML, err => {
-  if (err) throw new Error(err);
-
-  console.log('Portfolio complete! Check out index.html to see the output!');
-});
+promptUser()
+  .then(promptProject)
+  .then(portfolioData => {
+    // return generatePage(portfolioData);
+    return generatePage(mockData);
+  })
+  .then(pageHTML => {
+    return writeFile(pageHTML);
+  })
+  .then(writeFileResponse => {
+    console.log(writeFileResponse);
+    return copyFile();
+  })
+  .then(copyFileResponse => {
+    console.log(copyFileResponse);
+  })
+  .catch(err => {
+    console.log(err);
+  });
